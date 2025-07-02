@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.15.2, 2025-06-29T15:43:45. -->
+<!-- Written by QtCreator 4.15.2, 2025-07-02T16:31:44. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -300,7 +300,7 @@
       <value type="bool" key="SignTools.UseDefaultValues">true</value>
      </valuemap>
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.3">
-      <value type="QString" key="MerProcessStep.Arguments">--sdk --silent</value>
+      <value type="QString" key="MerProcessStep.Arguments">--sdk --silent --keepUserData </value>
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">QmakeProjectManager.MerRpmDeployStep</value>
      </valuemap>
@@ -405,7 +405,7 @@
     <value type="bool" key="MerRunConfiguration.DebugBypassOpenSslArmCapEnabled">true</value>
     <value type="bool" key="MerRunConfiguration.KeepUserData">true</value>
     <value type="QString" key="MerRunConfiguration.QmlLiveBenchWorkspace">C:/AuroraProgramming/test2</value>
-    <value type="bool" key="MerRunConfiguration.QmlLiveEnabled">false</value>
+    <value type="bool" key="MerRunConfiguration.QmlLiveEnabled">true</value>
     <value type="int" key="MerRunConfiguration.QmlLiveIpcPort">-1</value>
     <value type="int" key="MerRunConfiguration.QmlLiveOptions">3</value>
     <value type="QString" key="MerRunConfiguration.QmlLiveTargetWorkspace"></value>

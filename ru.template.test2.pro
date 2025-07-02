@@ -16,7 +16,8 @@ SOURCES += src/main.cpp
 
 HEADERS +=
 
-DISTFILES += rpm/ru.template.test2.spec
+DISTFILES += rpm/ru.template.test2.spec \
+    qml/anotherpage.qml
 
 AURORAAPP_ICONS = 86x86 108x108 128x128 172x172
 

@@ -1,9 +1,15 @@
-import QtQuick 2.0
+// main.qml
+import QtQuick 2.2
 import Sailfish.Silica 1.0
 
 ApplicationWindow {
-    objectName: "applicationWindow"
-    initialPage: Qt.resolvedUrl("pages/MainPage.qml")
-    cover: Qt.resolvedUrl("cover/DefaultCoverPage.qml")
-    allowedOrientations: defaultAllowedOrientations
+    initialPage: Component {
+        Page {
+            Button {
+                text: "Привет!"
+                anchors.centerIn: parent
+                onClicked: pageStack.push(Qt.resolvedUrl("anotherpage.qml"))
+            }
+        }
+    }
 }
