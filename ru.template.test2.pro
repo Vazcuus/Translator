@@ -3,18 +3,17 @@ TARGET = ru.template.test2
 CONFIG += auroraapp
 
 # Пути к заголовкам
-INCLUDEPATH += "../curl/include"
-DEPENDPATH += "../curl/include"
+
 
 # Библиотеки
-LIBS += -L"../curl/lib" -lcurl
-
-CONFIG(release, debug|release): LIBS += -lcurl
 
 
-SOURCES += src/main.cpp
 
-HEADERS +=
+SOURCES += src/main.cpp \
+    src/yandextranslator.cpp
+
+HEADERS += \
+    src/yandextranslator.h
 
 DISTFILES += rpm/ru.template.test2.spec \
     qml/anotherpage.qml
