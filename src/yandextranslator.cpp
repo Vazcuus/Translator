@@ -11,10 +11,14 @@ YandexTranslator::YandexTranslator(QObject *parent) : QObject(parent), m_network
 YandexTranslator::~YandexTranslator()
 {
     delete m_networkManager;
+    delete m_dbManager;
 }
 
 void YandexTranslator::translate(const QString &text, const QString &targetLanguage, const QString &folderId, const QString &apiKey)
 {
+    m_currentText = text;
+    m_currentTargetLang = targetLanguage;
+
     QUrl url("https://translate.api.cloud.yandex.net/translate/v2/translate");
     QNetworkRequest request(url);
 
@@ -44,7 +48,8 @@ void YandexTranslator::onTranslationFinished(QNetworkReply *reply)
 
     if (jsonObject.contains("translations")) {
         QJsonArray translations = jsonObject["translations"].toArray();
-        if (!translations.isEmpty()) {
+        if (!translations.isEmpty())
+        {
             m_translatedText = translations[0].toObject()["text"].toString();
             emit translationFinished(m_translatedText);
         }

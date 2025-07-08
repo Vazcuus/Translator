@@ -6,7 +6,7 @@
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonObject>
-
+#include "databasemanager.h"
 class YandexTranslator : public QObject
 {
     Q_OBJECT
@@ -32,7 +32,10 @@ private slots:
 private:
     QNetworkAccessManager *m_networkManager;
     QString m_translatedText;
+    QString m_currentText;
+    QString m_currentTargetLang;
     QString m_errorMessage;
+    DatabaseManager *m_dbManager;
 };
 
 #endif // YANDEXTRANSLATOR_H

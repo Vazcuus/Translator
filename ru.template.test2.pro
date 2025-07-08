@@ -7,12 +7,14 @@ CONFIG += auroraapp
 
 # Библиотеки
 
-
+QT += sql core
 
 SOURCES += src/main.cpp \
+    src/databasemanager.cpp \
     src/yandextranslator.cpp
 
 HEADERS += \
+    src/databasemanager.h \
     src/yandextranslator.h
 
 DISTFILES += rpm/ru.template.test2.spec \

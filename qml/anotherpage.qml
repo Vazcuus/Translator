@@ -1,8 +1,16 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import YandexTranslator 1.0
+import DatabaseManager 1.0
+
 Page {
     id: page
+
+    DatabaseManager
+    {
+        id: db
+
+    }
 
     YandexTranslator
     {
@@ -10,10 +18,6 @@ Page {
         onTranslationFinished:
         {
             outputField.text = translatedText
-        }
-        onErrorOccurred:
-        {
-            outputField.textt = "Ошибка: " + errorMessage
         }
     }
 
@@ -65,7 +69,10 @@ Page {
             text: qsTr("Перевести")
             onClicked:
             {
-                translator.translate(inputField.text, "ru", "b1gd81gnqcd39fkdftq0", "AQVNzslKURu19r77Ma6rD4G2vL9T6szGQgN4t1Uu")
+                db.init("translations.db")
+                translator.translate(inputField.text, "zh", "b1gd81gnqcd39fkdftq0", "AQVNzslKURu19r77Ma6rD4G2vL9T6szGQgN4t1Uu")
+                db.saveTranslation(inputField.text, translator.translatedText, "zh")
+                db.test();
                 console.log("Перевод текста: " + inputField.text)
             }
         }
