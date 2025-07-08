@@ -77,22 +77,20 @@ bool DatabaseManager::saveTranslation(const QString &text, const QString &transl
 
 void DatabaseManager::test()
 {
-    if (!m_db.isOpen()) {
+    if (!m_db.isOpen())
+    {
             qDebug() << "Database is not open!";
             return;
         }
 
-        QSqlQuery query(m_db);
-        query.prepare("SELECT * FROM translations;");
+        QSqlQuery query;
+        query.exec("SELECT id, source_text, translated_text FROM translations");
 
-
-        if (!query.exec()) {
-            qDebug() << "Query failed:" << query.lastError().text();
-            return;
+        while (query.next())
+        {
+            int id = query.value(0).toInt();
+            QString source = query.value(1).toString();
+            QString translated = query.value(2).toString();
+            qDebug() << id << " " << source << " " << translated;
         }
-        query.next();
-        qDebug() << query.value(0).toInt();
-        qDebug() << query.value(1).toString();
-        qDebug() << query.value(2).toString();
-
 }

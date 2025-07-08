@@ -18,6 +18,9 @@ Page {
         onTranslationFinished:
         {
             outputField.text = translatedText
+            db.init("translations.db")
+            db.saveTranslation(inputField.text, translatedText, "zh")
+            db.test();
         }
     }
 
@@ -69,10 +72,7 @@ Page {
             text: qsTr("Перевести")
             onClicked:
             {
-                db.init("translations.db")
                 translator.translate(inputField.text, "zh", "b1gd81gnqcd39fkdftq0", "AQVNzslKURu19r77Ma6rD4G2vL9T6szGQgN4t1Uu")
-                db.saveTranslation(inputField.text, translator.translatedText, "zh")
-                db.test();
                 console.log("Перевод текста: " + inputField.text)
             }
         }
