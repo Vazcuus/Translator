@@ -3,13 +3,16 @@ import Sailfish.Silica 1.0
 import YandexTranslator 1.0
 import DatabaseManager 1.0
 
+
+
 Page {
     id: page
+
 
     DatabaseManager
     {
         id: db
-
+        Component.onCompleted: db.init("translations.db")
     }
 
     YandexTranslator
@@ -18,7 +21,6 @@ Page {
         onTranslationFinished:
         {
             outputField.text = translatedText
-            db.init("translations.db")
             db.saveTranslation(inputField.text, translatedText, "zh")
             db.test();
         }
@@ -72,8 +74,17 @@ Page {
             text: qsTr("Перевести")
             onClicked:
             {
-                translator.translate(inputField.text, "zh", "b1gd81gnqcd39fkdftq0", "AQVNzslKURu19r77Ma6rD4G2vL9T6szGQgN4t1Uu")
-                console.log("Перевод текста: " + inputField.text)
+                const result = db.getTranslation(inputField.text, "zh");
+                console.log("GOGO: " + result)
+                if (result)
+                {  // Если метод возвращает строку
+                    outputField.text = result;
+                }
+                else
+                {
+                    translator.translate(inputField.text, "zh", "b1gd81gnqcd39fkdftq0", "AQVNzslKURu19r77Ma6rD4G2vL9T6szGQgN4t1Uu")
+                    console.log("Перевод текста: " + inputField.text)
+                }
             }
         }
 
