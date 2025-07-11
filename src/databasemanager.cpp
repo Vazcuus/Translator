@@ -16,6 +16,7 @@ void DatabaseManager::init(const QString &databasePath) {
     QDir().mkpath(path); // Создаём директорию, если её нет
     m_db.setDatabaseName(path + "/" + databasePath);
     qDebug() << "Database path:" << m_db.databaseName(); // Для отладки
+    m_db.setConnectOptions("QSQLITE_OPEN_READWRITE | QSQLITE_OPEN_CREATE");
 
 
     if (!m_db.open())
@@ -28,7 +29,7 @@ void DatabaseManager::init(const QString &databasePath) {
         qDebug() << "Connection YES!!!";
     }
 
-    createTables();
+   createTables();
 }
 
 bool DatabaseManager::createTables()
@@ -39,28 +40,41 @@ bool DatabaseManager::createTables()
     }
 
     QSqlQuery query;
-    return query.exec(
-        "CREATE TABLE IF NOT EXISTS translations ("
-        "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-        "source_text TEXT NOT NULL,"
-        "translated_text TEXT NOT NULL,"
-        "target_language TEXT NOT NULL,"
-        "UNIQUE(source_text, target_language)"
-        ");"
-    );
+
+    bool success = query.exec(
+                "CREATE TABLE IF NOT EXISTS translations ("
+                "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                "source_text TEXT NOT NULL,"
+                "translated_text TEXT NOT NULL,"
+                "target_language TEXT NOT NULL,"
+                "UNIQUE(source_text, target_language)"
+                ");"
+            );
+     if (success)
+     {
+         m_db.commit();
+     }
+     else
+     {
+         m_db.rollback();
+     }
+      return success;
+
 }
 
-bool DatabaseManager::getTranslation(const QString &text, const QString &targetLanguage, QString &result) {
+QString DatabaseManager::getTranslation(const QString &text, const QString &targetLanguage) {
     QSqlQuery query;
+    QString result;
     query.prepare("SELECT translated_text FROM translations WHERE source_text = ? AND target_language = ?;");
     query.addBindValue(text);
     query.addBindValue(targetLanguage);
 
-    if (query.exec() && query.next()) {
+    if (query.exec() && query.next())
+    {
         result = query.value(0).toString();
-        return true;
+        return result;
     }
-    return false;
+    return QString();
 }
 
 bool DatabaseManager::saveTranslation(const QString &text, const QString &translatedText, const QString &targetLanguage) {
@@ -72,8 +86,31 @@ bool DatabaseManager::saveTranslation(const QString &text, const QString &transl
     query.addBindValue(text);
     query.addBindValue(translatedText);
     query.addBindValue(targetLanguage);
-    return query.exec();
+
+    bool success = query.exec();
+    if (success)
+    {
+        m_db.commit();
+    } else
+    {
+       m_db.rollback();
+    }
+    return success;
 }
+
+
+bool DatabaseManager::openDatabase()
+{
+    bool dbExists = QFile::exists(m_db.databaseName());
+
+    if (!m_db.open()) return false;
+
+    if (!dbExists) {
+        createTables(); // Создаем таблицу только для новой БД
+    }
+    return true;
+}
+
 
 void DatabaseManager::test()
 {
