@@ -15,12 +15,15 @@ public:
     ~DatabaseManager();
 
     Q_INVOKABLE void init(const QString &databasePath = "translations.db");  // SQLite использует файл вместо сервера
-    Q_INVOKABLE bool getTranslation(const QString &text, const QString &targetLanguage, QString &result);
+    Q_INVOKABLE QString getTranslation(const QString &text, const QString &targetLanguage);
     Q_INVOKABLE bool saveTranslation(const QString &text, const QString &translatedText, const QString &targetLanguage);
     Q_INVOKABLE void test();
+    bool openDatabase();
 
+    QString translatedText() const { return mget; }
 private:
     QSqlDatabase m_db;
+    QString mget;
     bool createTables();
 };
 
