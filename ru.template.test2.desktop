@@ -7,7 +7,7 @@ Name=Template
 Name[ru]=Шаблон
 
 [X-Application]
-Permissions=RemovableMedia;UserDirs
+Permissions=RemovableMedia;UserDirs;PublicDir
 OrganizationName=ru.template
 ApplicationName=test2
 ExecDBus=/usr/bin/ru.template.test2
