@@ -12,10 +12,10 @@ DatabaseManager::~DatabaseManager() {
 
 void DatabaseManager::init(const QString &databasePath) {
     m_db = QSqlDatabase::addDatabase("QSQLITE");  // Используем SQLite вместо QPSQL
-    QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    QString path = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
     QDir().mkpath(path); // Создаём директорию, если её нет
     m_db.setDatabaseName(path + "/" + databasePath);
-    qDebug() << "Database path:" << m_db.databaseName(); // Для отладки
+    qDebug() << "Database path:" << m_db.databaseName(); // Для отладки в консоль
     m_db.setConnectOptions("QSQLITE_OPEN_READWRITE | QSQLITE_OPEN_CREATE");
 
 
@@ -74,7 +74,7 @@ QString DatabaseManager::getTranslation(const QString &text, const QString &targ
         result = query.value(0).toString();
         return result;
     }
-    return QString();
+    return NULL;
 }
 
 bool DatabaseManager::saveTranslation(const QString &text, const QString &translatedText, const QString &targetLanguage) {

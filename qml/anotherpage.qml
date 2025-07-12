@@ -20,8 +20,8 @@ Page {
         id: translator
         onTranslationFinished:
         {
-            outputField.text = translatedText
-            db.saveTranslation(inputField.text, translatedText, "zh")
+            outputField.text = translator.translatedText
+            db.saveTranslation(inputField.text, translator.translatedText, "zh")
             db.test();
         }
     }
@@ -108,7 +108,8 @@ Page {
             wrapMode: Text.Wrap
             font.pixelSize: Theme.fontSizeMedium
 
-            background: Rectangle {
+            background: Rectangle
+            {
                 color: Theme.rgba(Theme.highlightBackgroundColor, 0.05)
                 radius: Theme.paddingSmall
             }

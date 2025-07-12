@@ -38,4 +38,4 @@ private:
     DatabaseManager *m_dbManager;
 };
 
-#endif // YANDEXTRANSLATOR_H
+#endif

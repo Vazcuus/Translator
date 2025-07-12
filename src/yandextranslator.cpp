@@ -11,7 +11,6 @@ YandexTranslator::YandexTranslator(QObject *parent) : QObject(parent), m_network
 YandexTranslator::~YandexTranslator()
 {
     delete m_networkManager;
-    delete m_dbManager;
 }
 
 void YandexTranslator::translate(const QString &text, const QString &targetLanguage, const QString &folderId, const QString &apiKey)
