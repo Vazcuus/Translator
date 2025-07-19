@@ -99,20 +99,8 @@ bool DatabaseManager::saveTranslation(const QString &text, const QString &transl
 }
 
 
-bool DatabaseManager::openDatabase()
-{
-    bool dbExists = QFile::exists(m_db.databaseName());
 
-    if (!m_db.open()) return false;
-
-    if (!dbExists) {
-        createTables(); // Создаем таблицу только для новой БД
-    }
-    return true;
-}
-
-
-void DatabaseManager::test()
+void DatabaseManager::bd_output()
 {
     if (!m_db.isOpen())
     {

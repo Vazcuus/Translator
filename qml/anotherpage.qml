@@ -22,7 +22,7 @@ Page {
         {
             outputField.text = translator.translatedText
             db.saveTranslation(inputField.text, translator.translatedText, "zh")
-            db.test();
+            db.bd_output();
         }
     }
 
@@ -75,7 +75,7 @@ Page {
             onClicked:
             {
                 const result = db.getTranslation(inputField.text, "zh");
-                console.log("GOGO: " + result)
+                console.log("TranslationFromDatabase: " + result)
                 if (result)
                 {  // Если метод возвращает строку
                     outputField.text = result;
