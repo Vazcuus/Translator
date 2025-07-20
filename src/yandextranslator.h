@@ -7,6 +7,12 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include "databasemanager.h"
+#include <QEventLoop>
+#include <QUrl>
+#include <QNetworkRequest>
+#include <QJsonArray>
+#include <functional>
+
 class YandexTranslator : public QObject
 {
     Q_OBJECT
@@ -19,8 +25,8 @@ public:
 
     QString translatedText() const { return m_translatedText; }
     QString errorMessage() const { return m_errorMessage; }
-
-    Q_INVOKABLE void translate(const QString &text, const QString &targetLanguage, const QString &folderId, const QString &apiKey);
+    QString detectLanguage(const QString &text, const QString &apiKey, const QString &folderId);
+    Q_INVOKABLE void translate(const QString &text, const QString &folderId, const QString &apiKey);
 
 signals:
     void translationFinished(const QString &result);

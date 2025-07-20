@@ -12,11 +12,39 @@ YandexTranslator::~YandexTranslator()
 {
     delete m_networkManager;
 }
+QString YandexTranslator::detectLanguage(const QString &text, const QString &apiKey, const QString &folderId)
+{
+    QNetworkAccessManager manager;
 
-void YandexTranslator::translate(const QString &text, const QString &targetLanguage, const QString &folderId, const QString &apiKey)
+        // 2. Формируем URL и JSON-тело запроса
+        QUrl url("https://translate.api.cloud.yandex.net/translate/v2/detect");
+        QJsonObject json_body;
+        json_body["folderId"] = folderId;
+        json_body["text"] = text;
+
+        // 3. Настраиваем HTTP-запрос
+        QNetworkRequest request(url);
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+        request.setRawHeader("Authorization", ("Api-Key " + apiKey).toUtf8());
+
+        // 4. Отправляем POST-запрос и ждём ответа (ПЛОХАЯ РЕАЛИЗАЦИЯ, лучше асинхронно, однако пока так оставлю, с кэллбэком не разобрался пока что, можно еще попробовать через сигналы оформить, thinking)
+        QNetworkReply *reply = manager.post(request, QJsonDocument(json_body).toJson());
+        QEventLoop loop;
+        QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+        loop.exec();
+
+        // 6. Парсим JSON и извлекаем languageCode
+        QJsonDocument response = QJsonDocument::fromJson(reply->readAll());
+        QJsonObject root = response.object();
+        QString detected_lang = root["languageCode"].toString();
+        qDebug() << "Перевод с: " << detected_lang;
+        reply->deleteLater();
+        return detected_lang;
+}
+
+void YandexTranslator::translate(const QString &text, const QString &folderId, const QString &apiKey)
 {
     m_currentText = text;
-    m_currentTargetLang = targetLanguage;
 
     QUrl url("https://translate.api.cloud.yandex.net/translate/v2/translate");
     QNetworkRequest request(url);
@@ -27,7 +55,16 @@ void YandexTranslator::translate(const QString &text, const QString &targetLangu
     QJsonObject requestBody;
     requestBody["folderId"] = folderId;
     requestBody["texts"] = QJsonArray{text};
-    requestBody["targetLanguageCode"] = targetLanguage;
+    if (detectLanguage(text, apiKey, folderId) == "zh")
+    {
+        m_currentTargetLang = "ru";
+        requestBody["targetLanguageCode"] = "ru";
+    }
+    else
+    {
+        requestBody["targetLanguageCode"] = "zh";
+        m_currentTargetLang = "zh";
+    }
 
     QJsonDocument doc(requestBody);
     m_networkManager->post(request, doc.toJson());
