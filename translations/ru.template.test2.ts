@@ -16,10 +16,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Перевести</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Результат перевода...</source>
         <translation type="unfinished"></translation>
     </message>

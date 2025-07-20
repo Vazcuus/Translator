@@ -66,8 +66,8 @@ QString DatabaseManager::getTranslation(const QString &text, const QString &targ
     QSqlQuery query;
     QString result;
     query.prepare("SELECT translated_text FROM translations WHERE source_text = ? AND target_language = ?;");
-    query.addBindValue(text);
-    query.addBindValue(targetLanguage);
+    query.addBindValue(text.trimmed().toLower());
+    query.addBindValue(targetLanguage.trimmed().toLower());
 
     if (query.exec() && query.next())
     {
@@ -83,8 +83,8 @@ bool DatabaseManager::saveTranslation(const QString &text, const QString &transl
         "INSERT OR REPLACE INTO translations (source_text, translated_text, target_language) "
         "VALUES (?, ?, ?);"
     );
-    query.addBindValue(text);
-    query.addBindValue(translatedText);
+    query.addBindValue(text.trimmed().toLower());
+    query.addBindValue(translatedText.trimmed().toLower());
     query.addBindValue(targetLanguage);
 
     bool success = query.exec();
