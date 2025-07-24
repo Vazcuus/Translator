@@ -24,4 +24,27 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
+    <name>test2</name>
+    <message>
+        <source>Переводчик</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Введите текст для перевода...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Исходный текст</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Результат перевода...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Перевод</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>
